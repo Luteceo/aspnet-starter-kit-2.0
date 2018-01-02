@@ -1,0 +1,23 @@
+[
+  {
+    "path": "/",
+    "view": "./views/home",
+    "chunk": "main",
+    "data": {
+      "articles": "GET https://gist.githubusercontent.com/koistya/a32919e847531320675764e7308b796a/raw/articles.json"
+    }
+  },
+  {
+    "path": "/error",
+    "view": "./views/error",
+    "chunk": "main"
+  },
+  {
+    "path": "/about",
+    "view": "./views/about"
+  },
+  {
+    "path": "/tasks/:status(pending|completed)?",
+    "view": "./views/home"
+  }
+]

@@ -1,0 +1,25 @@
+# Include your project-specific ignores in this file
+# Read about how to use .gitignore: https://help.github.com/articles/ignoring-files
+
+# Build output
+build
+bin/
+obj/
+public/dist
+
+# Node.js and NPM
+node_modules
+npm-debug.log
+
+# .NET, Visual Studio
+.vs/
+project.lock.json
+*.[Cc]ache
+!*.[Cc]ache/
+
+# SQL Server
+*.mdf
+*.ldf
+
+# Sensitive data
+appsettings.*.json
