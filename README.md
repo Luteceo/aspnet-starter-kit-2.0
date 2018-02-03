@@ -22,3 +22,10 @@ This projects takes **the best** in ASP.NET Core Starter Kit and ASP.NET Core Re
 &nbsp; &nbsp; ✓ Hot Module Replacement ([HMR](https://webpack.github.io/docs/hot-module-replacement.html)) /w [React Hot Loader](http://gaearon.github.io/react-hot-loader/)  
 &nbsp; &nbsp; ✓ Lightweight build automation with plain JavaScript (see [`run.js`](run.js))  
 &nbsp; &nbsp; ✓ Cross-device testing with [Browsersync](https://browsersync.io/)
+
+## Prerequisites
+
+* OS X, Windows or Linux
+* [Node.js](https://nodejs.org) v6 or newer
+* [.NET Core](https://www.microsoft.com/net/core) and [.NET Core SDK](https://www.microsoft.com/net/core)
+* [Visual Studio Code](https://code.visualstudio.com/) with [C# extension](https://github.com/OmniSharp/omnisharp-vscode) (or Visual Studio 2015 or newer)
