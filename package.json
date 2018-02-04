@@ -6,7 +6,6 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "prestart": "babel-node tools/startMessage.js",
     "start": "npm-run-all --parallel test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* src tools",
@@ -72,6 +71,7 @@
     "bootstrap": "4.0.0",
     "css-loader": "0.28.9",
     "domain-task": "^3.0.3",
+    "eslint": "^4.17.0",
     "event-source-polyfill": "0.0.12",
     "extract-text-webpack-plugin": "3.0.2",
     "file-loader": "1.1.6",
