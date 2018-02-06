@@ -42,10 +42,10 @@ module.exports = (env) => {
         output: { path: path.join(__dirname, clientBundleOutputDir) },
         plugins: [
             new ExtractTextPlugin('site.css'),
-            new webpack.DllReferencePlugin({
+            /*new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require('./wwwroot/dist/vendor-manifest.json')
-            }) 
+            }) */
         ].concat(isDevBuild ? [
             // Plugins that apply in development builds only
             new webpack.SourceMapDevToolPlugin({
@@ -62,14 +62,14 @@ module.exports = (env) => {
     const serverBundleConfig = merge(sharedConfig(), {
         resolve: { mainFields: ['main'] },
         entry: { 'main-server': './client/boot-server.tsx' },
-        plugins: [
+        /*plugins: [
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require('./client/dist/vendor-manifest.json'),
                 sourceType: 'commonjs2',
                 name: './vendor'
             })
-        ],
+        ],*/
         output: {
             libraryTarget: 'commonjs',
             path: path.join(__dirname, './client/dist')

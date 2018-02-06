@@ -64,6 +64,7 @@
     "babel-eslint": "^7.2.3",
     "babel-jest": "^22.1.0",
     "bootstrap": "4.0.0",
+    "cpy": "^6.0.0",
     "css-loader": "0.28.9",
     "domain-task": "^3.0.3",
     "enzyme": "^3.3.0",
@@ -103,6 +104,7 @@
     "typescript": "2.7.1",
     "url-loader": "0.6.2",
     "webpack": "3.10.0",
+    "webpack-dev-middleware": "^2.0.4",
     "webpack-hot-middleware": "2.21.0",
     "webpack-merge": "4.1.1",
     "whatwg-fetch": "^2.0.3"
