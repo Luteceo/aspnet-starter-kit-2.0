@@ -6,6 +6,7 @@ const merge = require('webpack-merge');
 
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
+    const useHMR = !!global.HMR; // Hot Module Replacement (HMR)
 
     // Configuration in common to both client-side and server-side bundles
     const sharedConfig = () => ({
@@ -21,7 +22,12 @@ module.exports = (env) => {
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
         },
-        plugins: [new CheckerPlugin()]
+        plugins: [
+            new CheckerPlugin()
+        ].concat((isDevBuild && useHMR) ? [] : [
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NoEmitOnErrorsPlugin()
+        ])
     });
 
     // Configuration for client-side bundle suitable for running in browsers
@@ -39,7 +45,7 @@ module.exports = (env) => {
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require('./wwwroot/dist/vendor-manifest.json')
-            })
+            }) 
         ].concat(isDevBuild ? [
             // Plugins that apply in development builds only
             new webpack.SourceMapDevToolPlugin({
