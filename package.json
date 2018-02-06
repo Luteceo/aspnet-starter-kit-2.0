@@ -6,6 +6,7 @@
     "node": ">=4.0.0"
   },
   "scripts": {
+    "postinstall": "dotnet restore server && dotnet restore server.test",
     "start": "npm-run-all --parallel test:watch open:src lint:watch",
     "open:src": "babel-node tools/srcServer.js",
     "lint": "node_modules/.bin/esw webpack.config.* src tools",

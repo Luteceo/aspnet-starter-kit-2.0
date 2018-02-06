@@ -29,7 +29,7 @@ Obj/
 # Visual Studio 2015 cache/options directory
 .vs/
 /wwwroot/dist/
-/ClientApp/dist/
+/client/dist/
 
 /yarn.lock
 
