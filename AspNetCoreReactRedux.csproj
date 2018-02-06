@@ -15,9 +15,4 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.2" />
   </ItemGroup>
 
-  <ItemGroup>
-    <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
-    <Content Remove="ClientApp\**" />
-  </ItemGroup>
-
 </Project>
