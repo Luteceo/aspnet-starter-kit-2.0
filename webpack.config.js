@@ -4,6 +4,8 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const merge = require('webpack-merge');
 
+/* eslint-disable global-require */
+
 module.exports = (env) => {
     const isDevBuild = !(env && env.prod);
     const useHMR = !!global.HMR; // Hot Module Replacement (HMR)
