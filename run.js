@@ -40,13 +40,13 @@ tasks.set('start', () => {
         // Launch ASP.NET Core server after the initial bundling is complete
         if (++count === 1) {
           const options = {
-            cwd: path.resolve(__dirname, './wwwroot/'),
+            cwd: path.resolve(__dirname, ''),
             stdio: ['ignore', 'pipe', 'inherit'],
             env: Object.assign({}, process.env, {
               ASPNETCORE_ENVIRONMENT: 'Development',
             }),
           };
-          cp.spawn('dotnet', ['watch', 'run'], options).stdout.on('data', data => {
+          cp.spawn('dotnet', ['run'], options).stdout.on('data', data => {
             process.stdout.write(data);
             if (data.indexOf('Application started.') !== -1) {
               // Launch Browsersync after the initial bundling is complete
