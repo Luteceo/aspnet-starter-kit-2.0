@@ -28,7 +28,6 @@ tasks.set('start', () => {
       let count = 0;
       const env = {prod: false};
       const webpackConfig = require('./webpack.config')(env)[1];
-      //console.log(webpackConfig);
       const compiler = webpack(webpackConfig);
       // Node.js middleware that compiles application in watch mode with HMR support
       // http://webpack.github.io/docs/webpack-dev-middleware.html
@@ -46,21 +45,8 @@ tasks.set('start', () => {
               ASPNETCORE_ENVIRONMENT: 'Development',
             }),
           };
-          cp.spawn('dotnet', ['run'], options).stdout.on('data', data => {
+          cp.spawn('dotnet', ['watch', 'run'], options).stdout.on('data', data => {
             process.stdout.write(data);
-            if (data.indexOf('Application started.') !== -1) {
-              // Launch Browsersync after the initial bundling is complete
-              // For more information visit https://browsersync.io/docs/options
-              require('browser-sync').create().init({
-                proxy: {
-                  target: 'localhost:5000',
-                  middleware: [
-                    webpackDevMiddleware,
-                    require('webpack-hot-middleware')(compiler),
-                  ],
-                },
-              }, resolve);
-            }
           });
         }
       });
