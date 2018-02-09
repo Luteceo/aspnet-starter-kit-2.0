@@ -17,6 +17,33 @@ function run(task) {
 }
 
 //
+// build vendor webpack if needed
+// -----------------------------------------------------------------------------
+tasks.set('buildVendor', () => new Promise((resolve, reject) => {
+  if (!fs.existsSync('wwwroot/dist')) {
+    const webpackConfig = require('./webpack.config.vendor');
+    const compiler = webpack(webpackConfig);
+
+    // Callback to be executed after run is complete
+    const callback = (err, stats) => {
+      if (err) {
+        reject(err);
+      }
+      console.log(stats.toString({colors: true}));
+      resolve();
+    };
+
+    // call run on the compiler along with the callback
+    compiler.run(callback);
+  }
+  else
+  {
+    console.log('Nothing to do. If you want to regenerate "vendor" assets please delete "wwwroot/dist" folder');
+    resolve();
+  }
+}));
+
+//
 // Build website and launch it in a browser for testing in watch mode
 // -----------------------------------------------------------------------------
 tasks.set('start', () => {
@@ -24,16 +51,16 @@ tasks.set('start', () => {
   return Promise.resolve()
     //.then(() => run('clean'))
     //.then(() => run('appsettings'))
+    .then(() => run('buildVendor'))
     .then(() => new Promise(resolve => {
       let count = 0;
-      const env = {prod: false};
-      const webpackConfig = require('./webpack.config')(env)[1];
+      const webpackConfig = require('./webpack.config');
       const compiler = webpack(webpackConfig);
       // Node.js middleware that compiles application in watch mode with HMR support
       // http://webpack.github.io/docs/webpack-dev-middleware.html
       const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
-        publicPath: webpackConfig.output.publicPath,
-        stats: webpackConfig.stats,
+        publicPath: webpackConfig[0].output.publicPath,
+        stats: webpackConfig[0].stats
       });
       compiler.plugin('done', () => {
         // Launch ASP.NET Core server after the initial bundling is complete
