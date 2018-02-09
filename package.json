@@ -6,10 +6,9 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "postinstall": "dotnet restore",
+    "postinstall": "dotnet restore server",
     "start": "node run",
     "build": "node run build",
-    "buildVendor": "node run buildVendor",
     "build:debug": "node run build --debug"
   },
   "jest": {

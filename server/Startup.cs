@@ -30,6 +30,8 @@ namespace Server
         {
             if (env.IsDevelopment())
             {
+                env.UseRootNodeModules();
+
                 app.UseDeveloperExceptionPage();
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
@@ -54,6 +56,15 @@ namespace Server
                     name: "spa-fallback",
                     defaults: new { controller = "Home", action = "Index" });
             });
+        }
+    }
+
+    public static class HostingEnvironmentExtensions
+    {
+        public static void UseRootNodeModules(this IHostingEnvironment hostingEnvironment)
+        {
+            var nodeDir = Path.Combine(hostingEnvironment.ContentRootPath, "../node_modules");
+            Environment.SetEnvironmentVariable("NODE_PATH", nodeDir);
         }
     }
 }
