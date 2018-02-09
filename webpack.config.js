@@ -5,9 +5,10 @@ const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const merge = require('webpack-merge');
 
 /* eslint-disable global-require */
+const isDebug = global.DEBUG === false ? false : !process.argv.includes('--release');
 
-module.exports = (env) => {
-    const isDevBuild = !(env && env.prod);
+const config = (isDebug) => {
+    const isDevBuild = isDebug;
     const useHMR = !!global.HMR; // Hot Module Replacement (HMR)
 
     // Configuration in common to both client-side and server-side bundles
@@ -24,12 +25,7 @@ module.exports = (env) => {
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
         },
-        plugins: [
-            new CheckerPlugin()
-        ].concat((isDevBuild && useHMR) ? [] : [
-            new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoEmitOnErrorsPlugin()
-        ])
+        plugins: [new CheckerPlugin()]
     });
 
     // Configuration for client-side bundle suitable for running in browsers
@@ -67,14 +63,14 @@ module.exports = (env) => {
         plugins: [
             new webpack.DllReferencePlugin({
                 context: __dirname,
-                manifest: require('./client/dist/vendor-manifest.json'),
+                manifest: require('./wwwroot/dist/server/vendor-manifest.json'),
                 sourceType: 'commonjs2',
                 name: './vendor'
             })
         ],
         output: {
             libraryTarget: 'commonjs',
-            path: path.join(__dirname, './client/dist')
+            path: path.join(__dirname, 'wwwroot', 'dist', 'server')
         },
         target: 'node',
         devtool: 'inline-source-map'
@@ -82,3 +78,5 @@ module.exports = (env) => {
 
     return [clientBundleConfig, serverBundleConfig];
 };
+
+module.exports = config(isDebug);
