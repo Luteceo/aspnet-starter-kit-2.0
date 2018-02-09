@@ -1,5 +1,5 @@
 {
-  "name": "AspNetCoreReactRedux",
+  "name": "Server",
   "private": true,
   "version": "0.0.0",
   "engines": {
@@ -9,6 +9,7 @@
     "postinstall": "dotnet restore",
     "start": "node run",
     "build": "node run build",
+    "buildVendor": "node run buildVendor",
     "build:debug": "node run build --debug"
   },
   "jest": {
@@ -63,7 +64,8 @@
     "babel-core": "^6.0.0 || ^7.0.0-0",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^22.1.0",
-    "bootstrap": "4.0.0",
+    "bootstrap": "3.3.7",
+    "browser-sync": "^2.23.6",
     "cpy": "^6.0.0",
     "css-loader": "0.28.9",
     "domain-task": "^3.0.3",

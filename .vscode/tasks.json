@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/AspNetCoreReactRedux.csproj"
+                "${workspaceFolder}/server.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
