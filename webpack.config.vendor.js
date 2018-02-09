@@ -3,8 +3,11 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const merge = require('webpack-merge');
 
-module.exports = (env) => {
-    const isDevBuild = !(env && env.prod);
+/* eslint-disable global-require */
+const isDebug = global.DEBUG === false ? false : !process.argv.includes('--release');
+
+const config = (isDebug) => {
+    const isDevBuild = isDebug;
     const extractCSS = new ExtractTextPlugin('vendor.css');
 
     const sharedConfig = {
@@ -68,7 +71,7 @@ module.exports = (env) => {
         target: 'node',
         resolve: { mainFields: ['main'] },
         output: {
-            path: path.join(__dirname, 'client', 'dist'),
+            path: path.join(__dirname, 'wwwroot', 'dist', 'server'),
             libraryTarget: 'commonjs2',
         },
         module: {
@@ -77,7 +80,7 @@ module.exports = (env) => {
         entry: { vendor: ['aspnet-prerendering', 'react-dom/server'] },
         plugins: [
             new webpack.DllPlugin({
-                path: path.join(__dirname, 'client', 'dist', '[name]-manifest.json'),
+                path: path.join(__dirname, 'wwwroot', 'dist', 'server', '[name]-manifest.json'),
                 name: '[name]_[hash]'
             })
         ]
@@ -85,3 +88,5 @@ module.exports = (env) => {
 
     return [clientBundleConfig, serverBundleConfig];
 };
+
+module.exports = config(isDebug);
