@@ -95,10 +95,11 @@ tasks.set('start', () => {
             cwd: path.resolve(__dirname, './server/'),
             stdio: ['ignore', 'pipe', 'inherit'],
             env: Object.assign({}, process.env, {
-              ASPNETCORE_ENVIRONMENT: 'Development'
+              ASPNETCORE_ENVIRONMENT: 'Development',
+              NODE_PATH: '../node_modules/'
             }),
           };
-          cp.spawn('dotnet', ['watch', 'run', '--no-build'], options).stdout.on('data', data => {
+          cp.spawn('dotnet', ['watch', 'run'], options).stdout.on('data', data => {
             process.stdout.write(data);
           });
         }
