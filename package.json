@@ -6,10 +6,9 @@
     "node": ">=4.0.0"
   },
   "scripts": {
-    "postinstall": "dotnet restore",
+    "postinstall": "dotnet restore server",
     "start": "node run",
     "build": "node run build",
-    "buildVendor": "node run buildVendor",
     "build:debug": "node run build --debug"
   },
   "jest": {
@@ -58,7 +57,7 @@
     "@types/webpack": "3.8.5",
     "@types/webpack-env": "1.13.5",
     "aspnet-prerendering": "^3.0.1",
-    "aspnet-webpack": "^2.0.1",
+    "aspnet-webpack": "^2.0.3",
     "aspnet-webpack-react": "^3.0.0",
     "awesome-typescript-loader": "3.4.1",
     "babel-core": "^6.0.0 || ^7.0.0-0",
