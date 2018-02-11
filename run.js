@@ -19,7 +19,7 @@ function run(task) {
 //
 // build vendor webpack if needed
 // -----------------------------------------------------------------------------
-tasks.set('buildVendor', () => new Promise((resolve, reject) => {
+tasks.set('bundleVendor', () => new Promise((resolve, reject) => {
   if (!fs.existsSync('wwwroot/dist')) {
     const webpackConfig = require('./webpack.config.vendor');
     const compiler = webpack(webpackConfig);
@@ -44,6 +44,31 @@ tasks.set('buildVendor', () => new Promise((resolve, reject) => {
 }));
 
 //
+// Copy static files into the output folder
+// -----------------------------------------------------------------------------
+tasks.set('build', () => {
+  global.DEBUG = process.argv.includes('--debug') || false;
+  return Promise.resolve()
+    //.then(() => run('clean'))
+    //.then(() => run('bundle'))
+    //.then(() => run('copy'))
+    //.then(() => run('appsettings'))
+    .then(() => new Promise((resolve, reject) => {
+      const options = { stdio: ['ignore', 'inherit', 'inherit'] };
+      const config = global.DEBUG ? 'Debug' : 'Release';
+      //const args = ['publish', 'server', '-o', '../build', '-c', config];
+      const args = ['build', 'server', '-c', config];
+      cp.spawn('dotnet', args, options).on('close', code => {
+        if (code === 0) {
+          resolve();
+        } else {
+          reject(new Error(`dotnet ${args.join(' ')} => ${code} (error)`));
+        }
+      });
+    }));
+});
+
+//
 // Build website and launch it in a browser for testing in watch mode
 // -----------------------------------------------------------------------------
 tasks.set('start', () => {
@@ -51,7 +76,8 @@ tasks.set('start', () => {
   return Promise.resolve()
     //.then(() => run('clean'))
     //.then(() => run('appsettings'))
-    .then(() => run('buildVendor'))
+    .then(() => run('build'))
+    .then(() => run('bundleVendor'))
     .then(() => new Promise(resolve => {
       let count = 0;
       const webpackConfig = require('./webpack.config');
@@ -66,10 +92,11 @@ tasks.set('start', () => {
         // Launch ASP.NET Core server after the initial bundling is complete
         if (++count === 1) {
           const options = {
-            cwd: path.resolve(__dirname, ''),
+            cwd: path.resolve(__dirname, './server/'),
             stdio: ['ignore', 'pipe', 'inherit'],
             env: Object.assign({}, process.env, {
               ASPNETCORE_ENVIRONMENT: 'Development',
+              NODE_PATH: '../node_modules/'
             }),
           };
           cp.spawn('dotnet', ['watch', 'run'], options).stdout.on('data', data => {

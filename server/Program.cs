@@ -19,6 +19,7 @@ namespace Server
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseWebRoot("../wwwroot")
                 .UseStartup<Startup>()
                 .Build();
     }
