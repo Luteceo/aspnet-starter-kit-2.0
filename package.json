@@ -8,6 +8,8 @@
   "scripts": {
     "postinstall": "dotnet restore server",
     "start": "node run",
+    "test": "node scripts/test.js --env=jsdom",
+    "tslint": "tslint client/*.ts",
     "build": "node run build",
     "build:debug": "node run build --debug"
   },
@@ -15,7 +17,14 @@
     "transform": {
       "^.+\\.(t|j)sx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "collectCoverageFrom": [
+      "client/**/*.{js,ts,jsx,tsx,mjs}"
+    ],
+    "mapCoverage": true,
+    "testMatch": [
+      "<rootDir>/client/**/__tests__/**/*.{js,ts,jsx,tsx,mjs}",
+      "<rootDir>/client/**/?(*.)(spec|test).{js,ts,jsx,tsx,mjs}"
+    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -23,8 +32,7 @@
       "jsx",
       "json",
       "node"
-    ],
-    "mapCoverage": true
+    ]
   },
   "devDependencies": {
     "@types/history": "4.6.2",
@@ -85,6 +93,7 @@
     "redux-thunk": "2.2.0",
     "style-loader": "0.20.1",
     "ts-jest": "^22.0.4",
+    "tslint": "^5.9.1",
     "typescript": "2.7.1",
     "url-loader": "0.6.2",
     "webpack": "3.10.0",
