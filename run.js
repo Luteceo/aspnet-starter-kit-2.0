@@ -1,3 +1,4 @@
+/* eslint-disable */
 const fs = require('fs');
 const del = require('del');
 const cpy = require('cpy');
