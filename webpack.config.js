@@ -1,10 +1,10 @@
+/* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const merge = require('webpack-merge');
 
-/* eslint-disable global-require */
 const isDebug = global.DEBUG === false ? false : !process.argv.includes('--release');
 
 const config = (isDebug) => {
