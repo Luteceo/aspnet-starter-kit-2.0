@@ -8,7 +8,7 @@
   "scripts": {
     "postinstall": "dotnet restore server",
     "start": "node run",
-    "test": "node scripts/test.js --env=jsdom",
+    "test": "node run test --env=jsdom",
     "tslint": "tslint client/*.ts",
     "build": "node run build",
     "build:debug": "node run build --debug"
