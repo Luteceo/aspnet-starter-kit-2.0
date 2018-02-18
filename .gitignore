@@ -238,3 +238,6 @@ _Pvt_Extensions
 
 # JetBrains
 .idea/
+
+# Unit test coverage file
+coverage/
