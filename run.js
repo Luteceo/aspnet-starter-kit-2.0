@@ -18,7 +18,14 @@ function run(task) {
 }
 
 //
-// build vendor webpack if needed
+// Clean up the output directory
+// -----------------------------------------------------------------------------
+tasks.set('clean', () => Promise.resolve()
+  .then(() => del(['coverage/*', 'wwwroot/dist', 'server/bin/*'], { dot: true }))
+);
+
+//
+// Build vendor webpack if needed
 // -----------------------------------------------------------------------------
 tasks.set('bundleVendor', () => new Promise((resolve, reject) => {
   if (!fs.existsSync('wwwroot/dist')) {
@@ -39,21 +46,36 @@ tasks.set('bundleVendor', () => new Promise((resolve, reject) => {
   }
   else
   {
-    console.log('Nothing to do. If you want to regenerate "vendor" assets please delete "wwwroot/dist" folder');
+    console.log('Nothing to do. If you want to regenerate "vendor" assets please delete "wwwroot/dist" folder or run "npm run clean" command');
     resolve();
   }
 }));
 
 //
-// Copy static files into the output folder
+// Copy ASP.NET application config file for production and development environments
+// -----------------------------------------------------------------------------
+tasks.set('appsettings', () => new Promise(resolve => {
+  const environments = ['Production', 'Development'];
+  let count = environments.length;
+  const source = require('./server/appsettings.json');
+  delete source.Logging;
+  environments.forEach(env => {
+    const filename = path.resolve(__dirname, `./server/appsettings.${env}.json`);
+    try {
+      fs.writeFileSync(filename, JSON.stringify(source, null, '  '), { flag: 'wx' });
+    } catch (err) {}
+    if (--count === 0) resolve();
+  });
+}));
+
+//
+// Build server and client application
 // -----------------------------------------------------------------------------
 tasks.set('build', () => {
   global.DEBUG = process.argv.includes('--debug') || false;
   return Promise.resolve()
-    //.then(() => run('clean'))
-    //.then(() => run('bundle'))
-    //.then(() => run('copy'))
-    //.then(() => run('appsettings'))
+    .then(() => run('bundleVendor'))
+    .then(() => run('appsettings'))
     .then(() => new Promise((resolve, reject) => {
       const options = { stdio: ['ignore', 'inherit', 'inherit'] };
       const config = global.DEBUG ? 'Debug' : 'Release';
@@ -79,10 +101,8 @@ tasks.set('test', () => {
   process.env.NODE_ENV = 'test';
   process.env.PUBLIC_URL = '';
   return Promise.resolve()
-    //.then(() => run('clean'))
-    //.then(() => run('bundle'))
-    //.then(() => run('copy'))
-    //.then(() => run('appsettings'))
+    .then(() => run('bundleVendor'))
+    .then(() => run('appsettings'))
     .then(() => new Promise((resolve, reject) => {
       // Makes the script crash on unhandled rejections instead of silently
       // ignoring them. In the future, promise rejections that are not handled will
@@ -112,8 +132,8 @@ tasks.set('test', () => {
 tasks.set('start', () => {
   global.HMR = !process.argv.includes('--no-hmr'); // Hot Module Replacement (HMR)
   return Promise.resolve()
-    //.then(() => run('clean'))
-    //.then(() => run('appsettings'))
+    .then(() => run('clean'))
+    .then(() => run('appsettings'))
     .then(() => run('build'))
     .then(() => run('bundleVendor'))
     .then(() => new Promise(resolve => {
