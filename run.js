@@ -18,7 +18,14 @@ function run(task) {
 }
 
 //
-// build vendor webpack if needed
+// Clean up the output directory
+// -----------------------------------------------------------------------------
+tasks.set('clean', () => Promise.resolve()
+  .then(() => del(['coverage/*', 'wwwroot/dist', 'server/bin/*'], { dot: true }))
+);
+
+//
+// Build vendor webpack if needed
 // -----------------------------------------------------------------------------
 tasks.set('bundleVendor', () => new Promise((resolve, reject) => {
   if (!fs.existsSync('wwwroot/dist')) {
@@ -39,7 +46,7 @@ tasks.set('bundleVendor', () => new Promise((resolve, reject) => {
   }
   else
   {
-    console.log('Nothing to do. If you want to regenerate "vendor" assets please delete "wwwroot/dist" folder');
+    console.log('Nothing to do. If you want to regenerate "vendor" assets please delete "wwwroot/dist" folder or run "npm run clean" command');
     resolve();
   }
 }));
@@ -50,7 +57,6 @@ tasks.set('bundleVendor', () => new Promise((resolve, reject) => {
 tasks.set('build', () => {
   global.DEBUG = process.argv.includes('--debug') || false;
   return Promise.resolve()
-    //.then(() => run('clean'))
     //.then(() => run('bundle'))
     //.then(() => run('copy'))
     //.then(() => run('appsettings'))
@@ -79,7 +85,6 @@ tasks.set('test', () => {
   process.env.NODE_ENV = 'test';
   process.env.PUBLIC_URL = '';
   return Promise.resolve()
-    //.then(() => run('clean'))
     //.then(() => run('bundle'))
     //.then(() => run('copy'))
     //.then(() => run('appsettings'))
@@ -112,7 +117,7 @@ tasks.set('test', () => {
 tasks.set('start', () => {
   global.HMR = !process.argv.includes('--no-hmr'); // Hot Module Replacement (HMR)
   return Promise.resolve()
-    //.then(() => run('clean'))
+    .then(() => run('clean'))
     //.then(() => run('appsettings'))
     .then(() => run('build'))
     .then(() => run('bundleVendor'))
