@@ -9,6 +9,7 @@
     "postinstall": "dotnet restore server",
     "start": "node run",
     "test": "node run test --env=jsdom",
+    "test:coverage": "node run test --coverage --env=jsdom",
     "tslint": "tslint client/*.ts",
     "build": "node run build",
     "build:debug": "node run build --debug"
