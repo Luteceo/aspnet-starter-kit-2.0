@@ -73,7 +73,6 @@ tasks.set('appsettings', () => new Promise(resolve => {
 // -----------------------------------------------------------------------------
 tasks.set('build', () => {
   global.DEBUG = process.argv.includes('--debug') || false;
-
   return Promise.resolve()
     .then(() => run('bundleVendor'))
     .then(() => run('appsettings'))
@@ -132,7 +131,6 @@ tasks.set('test', () => {
 // -----------------------------------------------------------------------------
 tasks.set('start', () => {
   global.HMR = !process.argv.includes('--no-hmr'); // Hot Module Replacement (HMR)
-
   return Promise.resolve()
     .then(() => run('clean'))
     .then(() => run('appsettings'))
