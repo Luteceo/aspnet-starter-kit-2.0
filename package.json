@@ -7,7 +7,7 @@
   },
   "scripts": {
     "postinstall": "dotnet restore server",
-    "start": "node run",
+    "start": "node run --debug",
     "test": "node run test --env=jsdom",
     "test:coverage": "node run test --coverage --env=jsdom",
     "tslint": "tslint -c tslint.json 'client/**/*.{ts,tsx}'",
