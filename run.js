@@ -73,6 +73,7 @@ tasks.set('appsettings', () => new Promise(resolve => {
 // -----------------------------------------------------------------------------
 tasks.set('build', () => {
   global.DEBUG = process.argv.includes('--debug') || false;
+
   return Promise.resolve()
     .then(() => run('bundleVendor'))
     .then(() => run('appsettings'))
@@ -131,6 +132,8 @@ tasks.set('test', () => {
 // -----------------------------------------------------------------------------
 tasks.set('start', () => {
   global.HMR = !process.argv.includes('--no-hmr'); // Hot Module Replacement (HMR)
+  global.DEBUG = process.argv.includes('--debug') || false;
+
   return Promise.resolve()
     .then(() => run('clean'))
     .then(() => run('appsettings'))
@@ -140,12 +143,29 @@ tasks.set('start', () => {
       let count = 0;
       const webpackConfig = require('./webpack.config');
       const compiler = webpack(webpackConfig);
-      // Node.js middleware that compiles application in watch mode with HMR support
-      // http://webpack.github.io/docs/webpack-dev-middleware.html
-      const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
-        publicPath: webpackConfig[0].output.publicPath,
-        stats: webpackConfig[0].stats
-      });
+
+      if (global.DEBUG === true)
+      {
+        // Node.js middleware that compiles application in watch mode with HMR support
+        // http://webpack.github.io/docs/webpack-dev-middleware.html
+        const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
+          publicPath: webpackConfig[0].output.publicPath,
+          stats: webpackConfig[0].stats
+        });
+      }
+      else{
+        // Callback to be executed after run is complete
+        const callback = (err, stats) => {
+          if (err) {
+            reject(err);
+          }
+          console.log(stats.toString({colors: true}));
+          resolve();
+        };
+
+        // call run on the compiler along with the callback
+        compiler.run(callback);
+      }
       compiler.plugin('done', () => {
         // Launch ASP.NET Core server after the initial bundling is complete
         if (++count === 1) {
@@ -153,7 +173,7 @@ tasks.set('start', () => {
             cwd: path.resolve(__dirname, './server/'),
             stdio: ['ignore', 'pipe', 'inherit'],
             env: Object.assign({}, process.env, {
-              ASPNETCORE_ENVIRONMENT: 'Development',
+              ASPNETCORE_ENVIRONMENT: global.DEBUG === true ? 'Development' : 'Production',
               NODE_PATH: '../node_modules/'
             }),
           };
