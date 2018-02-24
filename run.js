@@ -132,7 +132,6 @@ tasks.set('test', () => {
 // -----------------------------------------------------------------------------
 tasks.set('start', () => {
   global.HMR = !process.argv.includes('--no-hmr'); // Hot Module Replacement (HMR)
-  global.DEBUG = process.argv.includes('--debug') || false;
 
   return Promise.resolve()
     .then(() => run('clean'))
@@ -144,28 +143,12 @@ tasks.set('start', () => {
       const webpackConfig = require('./webpack.config');
       const compiler = webpack(webpackConfig);
 
-      if (global.DEBUG === true)
-      {
-        // Node.js middleware that compiles application in watch mode with HMR support
-        // http://webpack.github.io/docs/webpack-dev-middleware.html
-        const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
-          publicPath: webpackConfig[0].output.publicPath,
-          stats: webpackConfig[0].stats
-        });
-      }
-      else{
-        // Callback to be executed after run is complete
-        const callback = (err, stats) => {
-          if (err) {
-            reject(err);
-          }
-          console.log(stats.toString({colors: true}));
-          resolve();
-        };
-
-        // call run on the compiler along with the callback
-        compiler.run(callback);
-      }
+      // Node.js middleware that compiles application in watch mode with HMR support
+      // http://webpack.github.io/docs/webpack-dev-middleware.html
+      const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
+        publicPath: webpackConfig[0].output.publicPath,
+        stats: webpackConfig[0].stats
+      });
       compiler.plugin('done', () => {
         // Launch ASP.NET Core server after the initial bundling is complete
         if (++count === 1) {
@@ -173,7 +156,7 @@ tasks.set('start', () => {
             cwd: path.resolve(__dirname, './server/'),
             stdio: ['ignore', 'pipe', 'inherit'],
             env: Object.assign({}, process.env, {
-              ASPNETCORE_ENVIRONMENT: global.DEBUG === true ? 'Development' : 'Production',
+              ASPNETCORE_ENVIRONMENT: 'Development',
               NODE_PATH: '../node_modules/'
             }),
           };
