@@ -28,4 +28,38 @@ This projects takes **the best** in ASP.NET Core Starter Kit and ASP.NET Core Re
 * OS X, Windows or Linux
 * [Node.js](https://nodejs.org) v6 or newer
 * [.NET Core](https://www.microsoft.com/net/core) and [.NET Core SDK](https://www.microsoft.com/net/core)
-* [Visual Studio Code](https://code.visualstudio.com/) with [C# extension](https://github.com/OmniSharp/omnisharp-vscode) (or Visual Studio 2015 or newer)
+* [Visual Studio Code](https://code.visualstudio.com/) or your prefered IDE.
+
+### Getting Started
+
+**Step 1**. Clone the latest version of **ASP.NET Core Starter Kit 2.0** on your local machine by running:
+
+```shell
+$ git clone -o aspnet-starter-kit -b master --single-branch \
+      https://github.com/Luteceo/aspnet-starter-kit-2.0 MyApp
+$ cd MyApp
+```
+
+**Step 2**. Install project dependencies listed in [`project.json`](server/project.json) and
+[`package.json`](package.json) files: 
+
+```shell
+$ npm install                   # Install both Node.js and .NET Core dependencies
+```
+
+or using Yarn:
+
+```shell
+$ yarn install                   # Install both Node.js and .NET Core dependencies
+```
+
+**Step 3**. Finally, launch your web app:
+
+```shell
+$ node run start                      # Compile and lanch the app, same as running: npm start
+```
+
+The app should become available at [http://localhost:5000/](http://localhost:5000/).
+See [`run.js`](run.js) for other available commands such as `node run build` etc.
+You can also run your app in a release (production) mode by running `node run --release`, or without
+Hot Module Replacement (HMR) by running `node run --no-hmr`.
