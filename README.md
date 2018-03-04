@@ -63,3 +63,7 @@ The app should become available at [http://localhost:5000/](http://localhost:500
 See [`run.js`](run.js) for other available commands such as `node run build` etc.
 You can also run your app in a release (production) mode by running `node run --release`, or without
 Hot Module Replacement (HMR) by running `node run --no-hmr`.
+
+## How to Deploy
+
+TODO
