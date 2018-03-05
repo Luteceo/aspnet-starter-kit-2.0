@@ -67,3 +67,15 @@ Hot Module Replacement (HMR) by running `node run --no-hmr`.
 ## How to Deploy
 
 TODO
+
+## How to Update
+
+You can always fetch and merge
+the latest changes from this (upstream) repo back into your project by running:
+
+```shell
+$ git checkout master
+$ git fetch aspnet-starter-kit-2.0
+$ git merge aspnet-starter-kit-2.0/master 
+```
+
