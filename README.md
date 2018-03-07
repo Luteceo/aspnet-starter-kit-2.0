@@ -79,3 +79,11 @@ $ git fetch aspnet-starter-kit-2.0
 $ git merge aspnet-starter-kit-2.0/master 
 ```
 
+## How to Contribute
+
+Anyone and everyone is welcome to contribute. The best way to
+start is by checking our [open issues](https://github.com/Luteceo/aspnet-starter-kit-2.0/issues),
+[submit a new issues](https://github.com/Luteceo/aspnet-starter-kit-2.0/issues/new?labels=bug) or
+[feature request](https://github.com/Luteceo/aspnet-starter-kit-2.0/issues/new?labels=enhancement),
+participate in discussions, upvote or downvote the issues you like or dislike, send pull
+requests.
