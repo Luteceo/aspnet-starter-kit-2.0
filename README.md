@@ -87,3 +87,8 @@ start is by checking our [open issues](https://github.com/Luteceo/aspnet-starter
 [feature request](https://github.com/Luteceo/aspnet-starter-kit-2.0/issues/new?labels=enhancement),
 participate in discussions, upvote or downvote the issues you like or dislike, send pull
 requests.
+
+## Get in Touch
+
+* [@luteceo_fr](https://twitter.com/luteceo_fr)
+* [@tjaskula](https://twitter.com/tjaskula)
