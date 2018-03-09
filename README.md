@@ -92,3 +92,7 @@ requests.
 
 * [@luteceo_fr](https://twitter.com/luteceo_fr)
 * [@tjaskula](https://twitter.com/tjaskula)
+
+## License
+
+Copyright © 2018-present [Luteceo](http://luteceo.com). This source code is licensed under the MIT
