@@ -96,3 +96,6 @@ requests.
 ## License
 
 Copyright © 2018-present [Luteceo](http://luteceo.com). This source code is licensed under the MIT
+
+---
+Made by Tomasz Jaskula [@tjaskula](https://twitter.com/tjaskula)
