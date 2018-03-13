@@ -140,6 +140,7 @@ tasks.set('start', () => {
       let count = 0;
       const webpackConfig = require('./webpack.config');
       const compiler = webpack(webpackConfig);
+
       // Node.js middleware that compiles application in watch mode with HMR support
       // http://webpack.github.io/docs/webpack-dev-middleware.html
       const webpackDevMiddleware = require('webpack-dev-middleware')(compiler, {
