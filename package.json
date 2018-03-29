@@ -51,7 +51,7 @@
     "@types/webpack-env": "1.13.6",
     "aspnet-prerendering": "^3.0.1",
     "aspnet-webpack": "^3.0.0",
-    "awesome-typescript-loader": "5.0.0",
+    "awesome-typescript-loader": "5.2.0",
     "bootstrap": "3.3.7",
     "browser-sync": "^2.23.6",
     "css-loader": "0.28.11",
