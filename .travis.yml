@@ -5,7 +5,9 @@ node_js:
   - '9'
 before_install:
   - sudo apt-get install libunwind8
+  - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
   - git clone https://github.com/dotnet/cli.git
-  - ./cli/scripts/obtain/dotnet-install.sh  --channel release/2.1
+  - ./cli/scripts/obtain/dotnet-install.sh --channel release/2.1 --install-dir "$DOTNET_INSTALL_DIR"
+  - export PATH="$DOTNET_INSTALL_DIR:$PATH"
 script:
   - npm run build
