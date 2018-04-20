@@ -127,6 +127,45 @@ tasks.set('test', () => {
 });
 
 //
+// Bundles all scripts in release mode
+// -----------------------------------------------------------------------------
+tasks.set('bundleAll', () => {
+  global.DEBUG = process.argv.includes('--debug') || false;
+  return Promise.resolve()
+    .then(() => run('clean'))
+    .then(() => run('appsettings'))
+    .then(() => run('build'))
+    .then(() => run('bundleVendor'))
+    .then(() => new Promise(resolve => {
+      const webpackConfig = require('./webpack.config');
+      const compiler = webpack(webpackConfig);
+
+      // Callback to be executed after run is complete
+      const callback = (err, stats) => {
+        if (err) {
+          reject(err);
+        }
+        console.log(stats.toString({colors: true}));
+        resolve();
+      };
+
+      // call run on the compiler along with the callback
+      compiler.run(callback);
+    }));
+});
+
+//
+// Publishes bundled files
+// -----------------------------------------------------------------------------
+tasks.set('publish', () => {
+  return Promise.resolve()
+    .then(() => run('bundleAll'))
+    .then(() => new Promise(resolve => {
+      cpy(['wwwroot/**/*.*'], 'build', { parents: true })
+    }));
+});
+
+//
 // Build website and launch it in a browser for testing in watch mode
 // -----------------------------------------------------------------------------
 tasks.set('start', () => {
