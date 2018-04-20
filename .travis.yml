@@ -3,8 +3,15 @@ dist: trusty
 language: node_js
 node_js:
   - '9'
+addons:
+  apt:
+    packages:
+    - libunwind8
+os:
+  - linux
+  - osx
+osx_image: xcode9.3
 before_install:
-  - sudo apt-get install libunwind8
   - export DOTNET_INSTALL_DIR="$PWD/.dotnetcli"
   - git clone https://github.com/dotnet/cli.git
   - ./cli/scripts/obtain/dotnet-install.sh --channel release/2.1 --install-dir "$DOTNET_INSTALL_DIR"
