@@ -13,7 +13,8 @@
     "tslint": "tslint -c tslint.json 'client/**/*.{ts,tsx}'",
     "clean": "node run clean",
     "build": "node run build",
-    "build:debug": "node run build --debug"
+    "build:debug": "node run build --debug",
+    "publish": "node run publish"
   },
   "jest": {
     "transform": {
