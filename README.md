@@ -4,14 +4,14 @@ ASP.NET Core Starter Kit 2.0
 This project is a mix of [ASP.NET Core Starter Kit](https://github.com/kriasoft/aspnet-starter-kit) and Microsoft [ASP.NET Core React/Redux template](https://docs.microsoft.com/en-us/aspnet/core/spa/react?tabs=visual-studio).
 
 ## Why ?
-I like original ASP.NET Core Starter Kit because it embraces [Node.js](https://nodejs.org/) and allows you to run on top of Kestrel web server but unfortunatelly it wasn't updated to support [.NET Core SDK 2.0](https://www.microsoft.com/net/download/).
+I like original ASP.NET Core Starter Kit because it embraces [Node.js](https://nodejs.org/) and allows you to run on top of Kestrel web server but unfortunatelly it wasn't updated to support [.NET Core SDK 2.1](https://www.microsoft.com/net/download/).
 
 I like Microsoft ASP.NET Core React/Redux template but I don't like how it integrates with [Node.js](https://nodejs.org/) using node commands from inside `.csproj` file:  
 
 &nbsp; &nbsp; ✓ It is less flexible than npm scripts and also is less familiar to front-end developers  
 &nbsp; &nbsp; ✓ Node.js commands are embedded inside the `.csproj` project file which is great if you are just using Visual Studio to compile .NET Core but is quite annoying if you like to work with npm scripts and CLI.
 
-This projects takes **the best** parts from ASP.NET Core Starter Kit and ASP.NET Core React/Redux template to create a new template **levaraging the full power of Node.js and .NET Core 2.0 SDK with Kestrel** as a web server. [TypeScript](https://www.typescriptlang.org) was also added to the mix.
+This projects takes **the best** parts from ASP.NET Core Starter Kit and ASP.NET Core React/Redux template to create a new template **levaraging the full power of Node.js and .NET Core 2.1 SDK with Kestrel** as a web server. [TypeScript](https://www.typescriptlang.org) was also added to the mix.
 
 ## Features
 
