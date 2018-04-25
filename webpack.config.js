@@ -13,6 +13,7 @@ const config = (isDebug) => {
 
     // Configuration in common to both client-side and server-side bundles
     const sharedConfig = () => ({
+        mode: 'development',
         stats: { modules: false },
         resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
         output: {
@@ -21,7 +22,17 @@ const config = (isDebug) => {
         },
         module: {
             rules: [
-                { test: /\.tsx?$/, include: /client/, use: 'awesome-typescript-loader?silent=true' },
+                { test: /\.tsx?$/, include: /client/,
+                  use: [
+                    {
+                      loader: 'babel-loader',
+                      options: {
+                        babelrc: false,
+                        plugins: ['react-hot-loader/babel'],
+                      },
+                    },
+                    'awesome-typescript-loader?silent=true', // (or awesome-typescript-loader)
+                  ]},
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
         },
