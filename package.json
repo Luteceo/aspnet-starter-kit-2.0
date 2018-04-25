@@ -73,7 +73,7 @@
     "react": "16.4.1",
     "react-dev-utils": "^5.0.0",
     "react-dom": "16.4.1",
-    "react-hot-loader": "4.3.0",
+    "react-hot-loader": "4.3.3",
     "react-redux": "5.0.7",
     "react-router-dom": "4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
