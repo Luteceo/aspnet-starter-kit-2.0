@@ -62,7 +62,7 @@ export const actionCreators = {
 
 const unloadedState: WeatherForecastsState = { forecasts: [], isLoading: false };
 
-export const reducer: Reducer<WeatherForecastsState> = (state: WeatherForecastsState, incomingAction: Action) => {
+export const reducer: Reducer<WeatherForecastsState> = (state: WeatherForecastsState = unloadedState, incomingAction: Action) => {
     const action = incomingAction as KnownAction;
     switch (action.type) {
         case 'REQUEST_WEATHER_FORECASTS':
