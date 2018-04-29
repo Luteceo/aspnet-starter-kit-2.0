@@ -1,14 +1,14 @@
 /* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const merge = require('webpack-merge');
 
 const isDebug = global.DEBUG === false ? false : !process.argv.includes('--release');
 
 const config = (isDebug) => {
     const isDevBuild = isDebug;
-    const extractCSS = new ExtractTextPlugin('vendor.css');
+    const extractCSS = new MiniCssExtractPlugin({filename: 'vendor.css'});
 
     const sharedConfig = {
         mode: 'development',
@@ -53,9 +53,21 @@ const config = (isDebug) => {
     const clientBundleConfig = merge(sharedConfig, {
         output: { path: path.join(__dirname, 'wwwroot', 'dist') },
         module: {
-            rules: [
-                { test: /\.css(\?|$)/, use: extractCSS.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) }
-            ]
+          rules: [
+            {
+              test: /\.css(\?|$)/,
+              use: [
+                MiniCssExtractPlugin.loader,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    minimize: isDevBuild,
+                    sourceMap: isDevBuild
+                  }
+                }
+              ]
+            }
+          ]
         },
         plugins: [
             extractCSS,
