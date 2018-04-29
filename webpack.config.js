@@ -1,7 +1,7 @@
 /* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const merge = require('webpack-merge');
 
@@ -9,7 +9,6 @@ const isDebug = global.DEBUG === false ? false : !process.argv.includes('--relea
 
 const config = (isDebug) => {
     const isDevBuild = isDebug;
-    const useHMR = !!global.HMR; // Hot Module Replacement (HMR)
 
     // Configuration in common to both client-side and server-side bundles
     const sharedConfig = () => ({
@@ -46,20 +45,31 @@ const config = (isDebug) => {
     const clientBundleConfig = merge(sharedConfig(), {
         entry: { 'main-client': './client/boot-client.tsx' },
         module: {
-            rules: [
-                { test: /\.css$/, use: ExtractTextPlugin.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) }
-            ]
+          rules: [
+            { test: /\.css$/,
+              use: [
+                MiniCssExtractPlugin.loader,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    minimize: isDevBuild,
+                    sourceMap: isDevBuild
+                  }
+                }
+              ]
+            }
+          ]
         },
         output: { path: path.join(__dirname, clientBundleOutputDir) },
         plugins: [
-            new ExtractTextPlugin('site.css'),
-            new webpack.DllReferencePlugin({
-                context: __dirname,
-                manifest: require('./wwwroot/dist/vendor-manifest.json')
-            })
+          new MiniCssExtractPlugin({filename : 'site.css'}),
+          new webpack.DllReferencePlugin({
+              context: __dirname,
+              manifest: require('./wwwroot/dist/vendor-manifest.json')
+          })
         ].concat(isDevBuild ? [] : [
-            // Plugins that apply in production builds only
-            new webpack.optimize.UglifyJsPlugin()
+          // Plugins that apply in production builds only
+          new webpack.optimize.UglifyJsPlugin()
         ]),
         devtool: isDevBuild ? 'inline-source-map' : 'source-map'
     });
