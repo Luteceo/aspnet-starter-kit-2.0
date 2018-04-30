@@ -12,7 +12,7 @@ const config = (isDebug) => {
 
     // Configuration in common to both client-side and server-side bundles
     const sharedConfig = () => ({
-        mode: 'development',
+        mode: isDevBuild ? 'development' : 'production',
         stats: { modules: false },
         resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
         output: {
