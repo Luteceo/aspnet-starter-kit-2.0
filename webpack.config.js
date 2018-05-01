@@ -22,17 +22,15 @@ const config = (isDebug) => {
         module: {
             rules: [
                 { test: /\.tsx?$/, include: /client/,
-                  loader: [
+                  use: [
                     {
-                      loader: 'awesome-typescript-loader',
+                      loader: 'babel-loader',
                       options: {
-                        useBabel: true,
-                        babelOptions: {
-                          babelrc: false,
-                          plugins: ['react-hot-loader/babel'],
-                        }
-                      }
-                    }
+                        babelrc: false,
+                        plugins: ['react-hot-loader/babel'],
+                      },
+                    },
+                    'awesome-typescript-loader?silent=true', // (or awesome-typescript-loader)
                   ]},
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
