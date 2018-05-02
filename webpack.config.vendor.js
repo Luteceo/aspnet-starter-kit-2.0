@@ -72,9 +72,10 @@ const config = (isDebug) => {
                 path: path.join(__dirname, 'wwwroot', 'dist', '[name]-manifest.json'),
                 name: '[name]_[hash]'
             })
-        ].concat(isDevBuild ? [] : [
-            new webpack.optimize.UglifyJsPlugin()
-        ])
+        ],
+        optimization: {
+          minimize: !isDevBuild
+        },
     });
 
     const serverBundleConfig = merge(sharedConfig, {
