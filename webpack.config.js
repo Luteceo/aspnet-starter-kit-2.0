@@ -65,10 +65,10 @@ const config = (isDebug) => {
               context: __dirname,
               manifest: require('./wwwroot/dist/vendor-manifest.json')
           })
-        ].concat(isDevBuild ? [] : [
-          // Plugins that apply in production builds only
-          new webpack.optimize.UglifyJsPlugin()
-        ]),
+        ],
+        optimization: {
+          minimize: !isDevBuild
+        },
         devtool: isDevBuild ? 'inline-source-map' : 'source-map'
     });
 
