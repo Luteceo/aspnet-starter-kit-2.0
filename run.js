@@ -1,6 +1,7 @@
 /* eslint-disable */
 const fs = require('fs');
 const del = require('del');
+const cpy = require('cpy');
 const path = require('path');
 const webpack = require('webpack');
 const cp = require('child_process');
