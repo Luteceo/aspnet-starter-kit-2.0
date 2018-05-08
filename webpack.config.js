@@ -23,15 +23,17 @@ const config = (isDebug) => {
         module: {
             rules: [
                 { test: /\.tsx?$/, include: /client/,
-                  use: [
+                  loader: [
                     {
-                      loader: 'babel-loader',
+                      loader: 'awesome-typescript-loader',
                       options: {
-                        babelrc: false,
-                        plugins: ['react-hot-loader/babel'],
-                      },
-                    },
-                    'awesome-typescript-loader?silent=true', // (or awesome-typescript-loader)
+                        useBabel: true,
+                        babelOptions: {
+                          babelrc: false,
+                          plugins: ['react-hot-loader/babel'],
+                        }
+                      }
+                    }
                   ]},
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
@@ -55,16 +57,11 @@ const config = (isDebug) => {
                 context: __dirname,
                 manifest: require('./wwwroot/dist/vendor-manifest.json')
             })
-        ].concat(isDevBuild ? [
-            // Plugins that apply in development builds only
-            new webpack.SourceMapDevToolPlugin({
-                filename: '[file].map', // Remove this line if you prefer inline source maps
-                moduleFilenameTemplate: path.relative(clientBundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
-            })
-        ] : [
+        ].concat(isDevBuild ? [] : [
             // Plugins that apply in production builds only
             new webpack.optimize.UglifyJsPlugin()
-        ])
+        ]),
+        devtool: isDevBuild ? 'inline-source-map' : 'source-map'
     });
 
     // Configuration for server-side (prerendering) bundle suitable for running in Node
@@ -84,7 +81,7 @@ const config = (isDebug) => {
             path: path.join(__dirname, 'wwwroot', 'dist', 'server')
         },
         target: 'node',
-        devtool: 'inline-source-map'
+        devtool: isDevBuild ? 'inline-source-map' : 'source-map'
     });
 
     return [clientBundleConfig, serverBundleConfig];
