@@ -17,4 +17,4 @@ before_install:
   - ./cli/scripts/obtain/dotnet-install.sh --channel release/2.1 --install-dir "$DOTNET_INSTALL_DIR"
   - export PATH="$DOTNET_INSTALL_DIR:$PATH"
 script:
-  - npm run build
+  - npm run publish
