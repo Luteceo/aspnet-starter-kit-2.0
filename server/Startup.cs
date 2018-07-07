@@ -34,7 +34,6 @@ namespace Server
                 app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                 {
                     HotModuleReplacement = true,
-                    ReactHotModuleReplacement = true,
                     ProjectPath = System.IO.Path.Combine(env.ContentRootPath, "../")
                 });
             }
