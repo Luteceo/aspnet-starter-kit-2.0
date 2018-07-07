@@ -11,6 +11,7 @@ const config = (isDebug) => {
     const extractCSS = new ExtractTextPlugin('vendor.css');
 
     const sharedConfig = {
+        mode: 'development',
         stats: { modules: false },
         resolve: { extensions: [ '.js' ] },
         module: {
