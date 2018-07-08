@@ -1,4 +1,4 @@
-import { Action, Reducer } from 'redux';
+import {Reducer} from 'redux';
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -31,7 +31,7 @@ export const actionCreators = {
 // ----------------
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
 
-export const reducer: Reducer<CounterState> = (state: CounterState, action: KnownAction) => {
+export const reducer: Reducer<CounterState, KnownAction> = (state: CounterState = {count: 0}, action: KnownAction) => {
     switch (action.type) {
         case 'INCREMENT_COUNT':
             return { count: state.count + 1 };
