@@ -184,7 +184,7 @@ tasks.set('start', () => {
         publicPath: webpackConfig[0].output.publicPath,
         stats: webpackConfig[0].stats
       });
-      compiler.plugin('done', () => {
+      compiler.hooks.done.tap('done', () => {
         // Launch ASP.NET Core server after the initial bundling is complete
         if (++count === 1) {
           const options = {
