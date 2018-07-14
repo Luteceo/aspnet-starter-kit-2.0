@@ -1,7 +1,7 @@
 /* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const merge = require('webpack-merge');
 
@@ -9,11 +9,10 @@ const isDebug = global.DEBUG === false ? false : !process.argv.includes('--relea
 
 const config = (isDebug) => {
     const isDevBuild = isDebug;
-    const useHMR = !!global.HMR; // Hot Module Replacement (HMR)
 
     // Configuration in common to both client-side and server-side bundles
     const sharedConfig = () => ({
-        mode: 'development',
+        mode: isDevBuild ? 'development' : 'production',
         stats: { modules: false },
         resolve: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
         output: {
@@ -23,17 +22,15 @@ const config = (isDebug) => {
         module: {
             rules: [
                 { test: /\.tsx?$/, include: /client/,
-                  loader: [
+                  use: [
                     {
-                      loader: 'awesome-typescript-loader',
+                      loader: 'babel-loader',
                       options: {
-                        useBabel: true,
-                        babelOptions: {
-                          babelrc: false,
-                          plugins: ['react-hot-loader/babel'],
-                        }
-                      }
-                    }
+                        babelrc: false,
+                        plugins: ['react-hot-loader/babel'],
+                      },
+                    },
+                    'awesome-typescript-loader?silent=true', // (or awesome-typescript-loader)
                   ]},
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
@@ -46,21 +43,32 @@ const config = (isDebug) => {
     const clientBundleConfig = merge(sharedConfig(), {
         entry: { 'main-client': './client/boot-client.tsx' },
         module: {
-            rules: [
-                { test: /\.css$/, use: ExtractTextPlugin.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) }
-            ]
+          rules: [
+            { test: /\.css$/,
+              use: [
+                MiniCssExtractPlugin.loader,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    minimize: isDevBuild,
+                    sourceMap: isDevBuild
+                  }
+                }
+              ]
+            }
+          ]
         },
         output: { path: path.join(__dirname, clientBundleOutputDir) },
         plugins: [
-            new ExtractTextPlugin('site.css'),
-            new webpack.DllReferencePlugin({
-                context: __dirname,
-                manifest: require('./wwwroot/dist/vendor-manifest.json')
-            })
-        ].concat(isDevBuild ? [] : [
-            // Plugins that apply in production builds only
-            new webpack.optimize.UglifyJsPlugin()
-        ]),
+          new MiniCssExtractPlugin({filename : 'site.css'}),
+          new webpack.DllReferencePlugin({
+              context: __dirname,
+              manifest: require('./wwwroot/dist/vendor-manifest.json')
+          })
+        ],
+        optimization: {
+          minimize: !isDevBuild
+        },
         devtool: isDevBuild ? 'inline-source-map' : 'source-map'
     });
 

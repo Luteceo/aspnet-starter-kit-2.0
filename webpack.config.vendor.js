@@ -1,17 +1,17 @@
 /* eslint-disable */
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const merge = require('webpack-merge');
 
 const isDebug = global.DEBUG === false ? false : !process.argv.includes('--release');
 
 const config = (isDebug) => {
     const isDevBuild = isDebug;
-    const extractCSS = new ExtractTextPlugin('vendor.css');
+    const extractCSS = new MiniCssExtractPlugin({filename: 'vendor.css'});
 
     const sharedConfig = {
-        mode: 'development',
+        mode: isDevBuild ? 'development' : 'production',
         stats: { modules: false },
         resolve: { extensions: [ '.js' ] },
         module: {
@@ -43,19 +43,28 @@ const config = (isDebug) => {
         },
         plugins: [
             new webpack.ProvidePlugin({ $: 'jquery', jQuery: 'jquery' }), // Maps these identifiers to the jQuery package (because Bootstrap expects it to be a global variable)
-            new webpack.NormalModuleReplacementPlugin(/\/iconv-loader$/, require.resolve('node-noop')), // Workaround for https://github.com/andris9/encoding/issues/16
-            new webpack.DefinePlugin({
-                'process.env.NODE_ENV': isDevBuild ? '"development"' : '"production"'
-            })
+            new webpack.NormalModuleReplacementPlugin(/\/iconv-loader$/, require.resolve('node-noop')) // Workaround for https://github.com/andris9/encoding/issues/16
         ]
     };
 
     const clientBundleConfig = merge(sharedConfig, {
         output: { path: path.join(__dirname, 'wwwroot', 'dist') },
         module: {
-            rules: [
-                { test: /\.css(\?|$)/, use: extractCSS.extract({ use: isDevBuild ? 'css-loader' : 'css-loader?minimize' }) }
-            ]
+          rules: [
+            {
+              test: /\.css(\?|$)/,
+              use: [
+                MiniCssExtractPlugin.loader,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    minimize: isDevBuild,
+                    sourceMap: isDevBuild
+                  }
+                }
+              ]
+            }
+          ]
         },
         plugins: [
             extractCSS,
@@ -63,13 +72,15 @@ const config = (isDebug) => {
                 path: path.join(__dirname, 'wwwroot', 'dist', '[name]-manifest.json'),
                 name: '[name]_[hash]'
             })
-        ].concat(isDevBuild ? [] : [
-            new webpack.optimize.UglifyJsPlugin()
-        ])
+        ],
+        optimization: {
+          minimize: !isDevBuild
+        },
     });
 
     const serverBundleConfig = merge(sharedConfig, {
         target: 'node',
+        devtool: 'source-map',
         resolve: { mainFields: ['main'] },
         output: {
             path: path.join(__dirname, 'wwwroot', 'dist', 'server'),
