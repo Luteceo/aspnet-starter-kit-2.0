@@ -13,7 +13,12 @@ function run(task) {
   console.log(`Starting '${task}'...`);
   return Promise.resolve().then(() => tasks.get(task)()).then(() => {
     console.log(`Finished '${task}' after ${new Date().getTime() - start.getTime()}ms`);
-  }, err => console.error(err.stack));
+  }, err => {
+    console.error(err.stack);
+    if (!global.DEBUG) {
+      process.exit(1);
+    }
+  });
 }
 
 //
