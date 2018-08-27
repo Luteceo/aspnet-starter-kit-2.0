@@ -83,8 +83,8 @@ tasks.set('build', () => {
     .then(() => new Promise((resolve, reject) => {
       const options = { stdio: ['ignore', 'inherit', 'inherit'] };
       const config = global.DEBUG ? 'Debug' : 'Release';
-      //const args = ['publish', 'server', '-o', '../build', '-c', config];
-      const args = ['build', 'server', '-c', config];
+      let args = ['publish', 'server', '-o', '../build', '-f', 'net462', '-c', config];
+      if (global.DEBUG) args = ['build', 'server', '-f', frameworkVersion, '-c', config];
       cp.spawn('dotnet', args, options).on('close', code => {
         if (code === 0) {
           resolve();
