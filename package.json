@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
     "@types/history": "4.7.0",
     "@types/jest": "^23.3.1",
     "@types/react": "16.4.14",
@@ -62,6 +63,7 @@
     "enzyme": "^3.5.1",
     "enzyme-adapter-react-16": "^1.4.0",
     "eslint": "^5.5.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-react": "^7.11.1",
     "event-source-polyfill": "0.0.16",
     "file-loader": "2.0.0",
@@ -83,6 +85,7 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "redux": "4.0.0",
     "redux-thunk": "2.3.0",
+    "source-map-loader": "^0.2.4",
     "style-loader": "0.23.0",
     "ts-jest": "^23.1.4",
     "tslint": "^5.11.0",
