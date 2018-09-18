@@ -13,7 +13,12 @@ function run(task) {
   console.log(`Starting '${task}'...`);
   return Promise.resolve().then(() => tasks.get(task)()).then(() => {
     console.log(`Finished '${task}' after ${new Date().getTime() - start.getTime()}ms`);
-  }, err => console.error(err.stack));
+  }, err => {
+    console.error(err.stack);
+    if (!global.DEBUG) {
+      process.exit(1);
+    }
+  });
 }
 
 //
@@ -78,8 +83,8 @@ tasks.set('build', () => {
     .then(() => new Promise((resolve, reject) => {
       const options = { stdio: ['ignore', 'inherit', 'inherit'] };
       const config = global.DEBUG ? 'Debug' : 'Release';
-      //const args = ['publish', 'server', '-o', '../build', '-c', config];
-      const args = ['build', 'server', '-c', config];
+      let args = ['publish', 'server', '-o', '../build', '-c', config];
+      if (global.DEBUG) args = ['build', 'server', '-c', config];
       cp.spawn('dotnet', args, options).on('close', code => {
         if (code === 0) {
           resolve();
