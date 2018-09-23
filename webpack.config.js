@@ -32,6 +32,11 @@ const config = (isDebug) => {
                     },
                     'awesome-typescript-loader?silent=true', // (or awesome-typescript-loader)
                   ]},
+                {
+                  test: /\.js$/,
+                  use: ["source-map-loader"],
+                  enforce: "pre"
+                },
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
             ]
         },
