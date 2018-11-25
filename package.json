@@ -59,6 +59,7 @@
     "browser-sync": "^2.24.7",
     "cpy": "^7.0.1",
     "css-loader": "1.0.0",
+    "del": "^3.0.0",
     "domain-task": "^3.0.3",
     "enzyme": "^3.5.1",
     "enzyme-adapter-react-16": "^1.4.0",
