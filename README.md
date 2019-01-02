@@ -23,6 +23,17 @@ This projects takes **the best** parts from ASP.NET Core Starter Kit and ASP.NET
 &nbsp; &nbsp; ✓ Lightweight build automation with plain JavaScript (see [`run.js`](run.js))  
 &nbsp; &nbsp; ✓ Cross-device testing with [Browsersync](https://browsersync.io/)
 
+## Styling
+The project is framework agnostic so you can easily add your preferred styling framework. 
+   
+&nbsp; &nbsp; [Bootstrap 4 components](https://reactstrap.github.io/)   
+&nbsp; &nbsp; [Ant design components](https://ant.design/)   
+&nbsp; &nbsp; [Material UI components](https://material-ui.com/)   
+   
+Or extend the loaders in webpack.config.js to compile your own [SASS](https://github.com/webpack-contrib/sass-loader) or [LESS](https://github.com/webpack-contrib/less-loader) styles.
+
+Another option instead of css could be to use css-in-js. Your can see a list of frameworks at MicheleBertoli's great repo [here](https://github.com/MicheleBertoli/css-in-js). [Emotion](https://github.com/emotion-js/emotion) has worked in a few test projects but feedback on a good library that plays well with typescript are appreciated. 
+
 ## Prerequisites
 
 * OS X, Windows or Linux
